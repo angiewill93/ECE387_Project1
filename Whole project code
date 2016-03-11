@@ -1,0 +1,89 @@
+#include <Wire.h>
+#include <RealTimeClockDS1307.h>
+#include <LiquidCrystal.h>
+
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+#define Display_Clock_Every_N_Seconds 10 
+#define Display_ShortHelp_Every_N_Seconds 60
+String tz;
+int hours = 0;
+int minutes = 0;
+int seconds = 0;
+int dates = 0;
+int months = 0;
+int years = 0;
+int ap = 0;
+int potPin = 1;                     //set pin4 as the signal input
+float temperature = 0;                //set temperature as the temperature variable
+long val=0;//
+int buzzerpin=7;
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16,2); 
+  pinMode(A3, OUTPUT);
+  digitalWrite(A3, HIGH);
+  pinMode(A2, OUTPUT);
+  digitalWrite(A2, LOW);//DS1307 Output
+  pinMode(buzzerpin,OUTPUT);//buzzer output
+}
+
+void loop() {
+  RTC.readClock();
+    if(ap == 1)
+    {
+    tz = "PM";
+    }
+    else
+    {
+    tz ="AM";
+    }
+    lcd.home();
+    hours = RTC.getHours();
+    minutes = RTC.getMinutes();
+    seconds = RTC.getSeconds(); //get data
+    ap = RTC.isPM();
+    dates = RTC.getDate();
+    months = RTC.getMonth();
+    years = RTC.getYear();
+    val = analogRead(potPin);             
+    temperature = (val*0.0048828125*1000);         //change the value val
+    lcd.print(hours);
+    lcd.print(":");
+    lcd.print(minutes);
+    lcd.print(":");
+    lcd.print(seconds);
+    lcd.print(" ");
+    lcd.print(tz);
+    lcd.setCursor(0, 1);
+    lcd.print((long)temperature / 10);   //show the integer
+    lcd.print(".");    
+    lcd.print( (long)temperature % 10); //show the digit number
+    lcd.print((char)223); //show o
+    lcd.print("C"); //show C
+    delay(200);
+    lcd.clear();
+    lcd.home();
+    lcd.print(hours);
+    lcd.print(" ");
+    lcd.print(minutes);
+    lcd.print(" ");
+    lcd.print(seconds);
+    lcd.print(" ");
+    lcd.print(tz);
+    lcd.setCursor(0, 1);
+    lcd.print((long)temperature / 10);   //show the integer
+    lcd.print(".");    
+    lcd.print( (long)temperature % 10); //show the digit number
+    lcd.print((char)223); //show o
+    lcd.print("C"); //show C
+    if(temperature>33){
+    tone(buzzerpin, 2000);
+    }
+    else{
+    noTone(buzzerpin);
+    }// alarm condition
+
+    delay(200);
+    lcd.clear();
+}
