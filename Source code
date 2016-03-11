@@ -1,1 +1,42 @@
+//Sample code for 1602 LCD screen
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
+void setup() {
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+  // Print a message to the LCD.
+  lcd.print("hello, world!");
+}
+
+void loop() {
+  // set the cursor to column 0, line 1
+  // (note: line 1 is the second row, since counting begins with 0):
+  lcd.setCursor(0, 1);
+  // print the number of seconds since reset:
+  lcd.print(millis() / 1000);
+}
+
+//Sample code for LM35 temperature sensor
+val = analogRead(tempPin);
+float mv = ( val/1024.0)*5000; 
+float cel = mv/10;
+float farh = (cel*9)/5 + 32;
+
+
+//Sample code for DS1307 real time clock
+String tz;
+int hours = 0;
+int minutes = 0;
+int seconds = 0;
+int dates = 0;
+int months = 0;
+int years = 0;
+int ap = 0;
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16,2); 
+  pinMode(A3, OUTPUT);
+  digitalWrite(A3, HIGH);
+  pinMode(A2, OUTPUT);
+  digitalWrite(A2, LOW);
+}
