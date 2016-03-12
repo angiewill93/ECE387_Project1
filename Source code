@@ -15,13 +15,14 @@ void loop() {
   // print the number of seconds since reset:
   lcd.print(millis() / 1000);
 }
+[Reference](https://www.arduino.cc/en/Tutorial/HelloWorld)
 
 //Sample code for LM35 temperature sensor
 val = analogRead(tempPin);
 float mv = ( val/1024.0)*5000; 
 float cel = mv/10;
 float farh = (cel*9)/5 + 32;
-
+(http://www.instructables.com/id/ARDUINO-TEMPERATURE-SENSOR-LM35/)
 
 //Sample code for DS1307 real time clock
 String tz;
@@ -40,3 +41,4 @@ void setup() {
   pinMode(A2, OUTPUT);
   digitalWrite(A2, LOW);
 }
+(http://www.instructables.com/id/Arduino-Real-Time-Clock-DS1307/?ALLSTEPS)
